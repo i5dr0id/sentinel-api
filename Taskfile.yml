@@ -1,0 +1,52 @@
+version: "3"
+
+vars:
+  BIN: bin/sentinel-api
+
+tasks:
+  default:
+    desc: Run dev server (hot reload via air)
+    cmds:
+      - go run ./cmd/sentinel-api
+
+  build:
+    desc: Build the binary
+    cmds:
+      - go build -o {{.BIN}} ./cmd/sentinel-api
+
+  run:
+    desc: Run a previously built binary
+    cmds:
+      - "{{.BIN}}"
+
+  test:
+    desc: Run all tests
+    cmds:
+      - go test ./... -count=1
+
+  test:unit:
+    desc: Run unit tests (no integration)
+    cmds:
+      - go test -short ./... -count=1
+
+  lint:
+    desc: gofmt + go vet
+    cmds:
+      - gofmt -l -w .
+      - go vet ./...
+      - go build ./...
+
+  tidy:
+    desc: Tidy modules
+    cmds:
+      - go mod tidy
+
+  migrate:up:
+    desc: Apply goose migrations to the configured database
+    cmds:
+      - goose -dir migrations postgres "$SENTINEL_STORE_DATABASE_URL" up
+
+  migrate:down:
+    desc: Roll back the last migration
+    cmds:
+      - goose -dir migrations postgres "$SENTINEL_STORE_DATABASE_URL" down

@@ -1,0 +1,13 @@
+# Go
+bin/
+*.exe
+*.test
+*.out
+
+# Local config / secrets
+.env
+*.local.env
+
+# Runtime artifacts
+/data/
+*.log

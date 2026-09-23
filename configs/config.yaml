@@ -1,0 +1,27 @@
+# Every value can be overridden with a SENTINEL_* environment variable,
+# e.g. SENTINEL_SERVER_PORT or SENTINEL_STORE_KIND. Keep secrets in env only.
+
+server:
+  host: 0.0.0.0
+  port: 3000
+
+store:
+  kind: memory # "memory" (zero-infra sim) or "postgres"
+  database_url: "" # required when kind=postgres, e.g. postgres://sentinel:...@localhost:5432/sentinel
+
+sim:
+  enabled: true
+  rate: 18       # average events/sec of generated traffic
+  jitter: 150ms
+
+geo:
+  maxmind_db_path: "" # optional real GeoLite2 DB; bundled demo table used otherwise
+
+assets:
+  - api-gw-01
+  - api-gw-02
+  - www-01
+  - auth-svc-01
+  - Internal-DB-01
+
+# ingest_token: "" # if set, POST /api/v1/ingest requires Authorization: Bearer <token>
